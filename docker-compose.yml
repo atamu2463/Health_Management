@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16 
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: myappdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+
+  # Backend: Spring Boot (Java LTS = 21)
+  backend:
+    image: eclipse-temurin:21-jdk
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    tty: true
+    depends_on:
+      - db
+
+  # Frontend: React (Node.js v20.19.5)
+  frontend:
+    image: node:20.19.5-slim
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
