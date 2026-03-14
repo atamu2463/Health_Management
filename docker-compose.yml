@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   # Backend: Spring Boot (Java LTS = 21)
   backend:
@@ -35,3 +35,7 @@ services:
     stdin_open: true
     depends_on:
       - backend
+
+# データをDocker内部領域で管理するためのボリューム定義
+volumes:
+  postgres_data:
