@@ -1,5 +1,6 @@
 services:
   db:
+    container_name: db
     image: postgres:16 
     restart: always
     environment:
@@ -13,6 +14,7 @@ services:
 
   # Backend: Spring Boot (Java LTS = 21)
   backend:
+    container_name: backend
     image: eclipse-temurin:21-jdk
     volumes:
       - ./backend:/app
@@ -25,12 +27,13 @@ services:
 
   # Frontend: React (Node.js v20.19.5)
   frontend:
+    container_name: frontend
     image: node:20.19.5-slim
     volumes:
       - ./frontend:/app
     working_dir: /app
     ports:
-      - "3000:3000"
+      - "5173:5173" #Viteを使用
     tty: true
     stdin_open: true
     depends_on:
