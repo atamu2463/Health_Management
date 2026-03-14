@@ -1,5 +1,6 @@
 services:
   db:
+    container_name: db
     image: postgres:16 
     restart: always
     environment:
@@ -9,11 +10,13 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   # Backend: Spring Boot (Java LTS = 21)
   backend:
-    image: eclipse-temurin:21-jdk
+    container_name: backend
+    build: 
+      context: ./backend
     volumes:
       - ./backend:/app
     working_dir: /app
@@ -25,13 +28,20 @@ services:
 
   # Frontend: React (Node.js v20.19.5)
   frontend:
-    image: node:20.19.5-slim
+    container_name: frontend
+    build: 
+      context: ./frontend
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     working_dir: /app
     ports:
-      - "3000:3000"
+      - "5173:5173" #Viteを使用
     tty: true
     stdin_open: true
     depends_on:
       - backend
+
+# データをDocker内部領域で管理するためのボリューム定義
+volumes:
+  postgres_data:
