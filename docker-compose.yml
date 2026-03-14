@@ -15,7 +15,8 @@ services:
   # Backend: Spring Boot (Java LTS = 21)
   backend:
     container_name: backend
-    image: eclipse-temurin:21-jdk
+    build: 
+      context: ./backend
     volumes:
       - ./backend:/app
     working_dir: /app
@@ -28,9 +29,11 @@ services:
   # Frontend: React (Node.js v20.19.5)
   frontend:
     container_name: frontend
-    image: node:20.19.5-slim
+    build: 
+      context: ./frontend
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     working_dir: /app
     ports:
       - "5173:5173" #Viteを使用
