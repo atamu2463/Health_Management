@@ -1,4 +1,4 @@
-package com.health_management.backend;
+package com.healthmanagement.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

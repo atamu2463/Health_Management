@@ -1,4 +1,4 @@
-package com.health_management.backend;
+package com.healthmanagement.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
