@@ -1,4 +1,4 @@
-package com.healthmanagement.entity;
+package com.example.healthmanagement.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
