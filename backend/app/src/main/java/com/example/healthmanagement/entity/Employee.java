@@ -1,7 +1,7 @@
 package com.example.healthmanagement.entity;
 
 import jakarta.persistence.*;
-import Lombok.*;
+import lombok.*;
 import java.util.UUID;
 
 @Entity
