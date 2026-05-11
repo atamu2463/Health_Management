@@ -1,18 +1,17 @@
 package com.example.healthmanagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+import Lombok.*;
 import java.util.UUID;
 
 @Entity
 @Table(name = "employees")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(name = "organization_id", nullable = false)
@@ -25,27 +24,10 @@ public class Employee {
     private String name;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Setter
     private String email;
-
+    
     @Column(name = "password", nullable = false)
+    @Setter
     private String password;
-
-    protected Employee() {}
-
-    public Employee(UUID organizationId, UUID departmentId, String name, String email, String password) {
-        this.organizationId = organizationId;
-        this.departmentId = departmentId;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public UUID getId() { return id; }
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-
-    public void setName(String name) { this.name = name; }
-    public void setEmail(String email) { this.email = email; }
-    public void setPassword(String password) { this.password = password; }
 }

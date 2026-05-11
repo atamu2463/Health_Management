@@ -1,35 +1,22 @@
 package com.example.healthmanagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+import Lombok.*;
 import java.util.UUID;
 
 @Entity
 @Table(name = "organizations")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Organization {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    protected Organization() {}
-
-    public Organization(String name) {
-        this.name = name;
-    }
-
-    public UUID getId() { return id; }
-    public String getName() { return name; }
-
-    public void setName(String name) { this.name = name; }
-
 }
     
     
