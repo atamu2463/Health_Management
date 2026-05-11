@@ -14,8 +14,9 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "organization_id", nullable = false)
-    private UUID organizationId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
 
     @Column(name = "department_id", nullable = false)
     private UUID departmentId;
