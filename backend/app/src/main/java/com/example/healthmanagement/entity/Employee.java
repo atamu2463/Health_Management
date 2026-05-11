@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @UuidGenerator
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -19,6 +19,7 @@ public class Employee {
     private Organization organization;
 
     @Column(name = "department_id", nullable = false)
+    @UuidGenerator
     private UUID departmentId;
 
     @Column(name = "name", nullable = false)

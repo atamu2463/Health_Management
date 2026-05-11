@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Organization {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @UuidGenerator
     private UUID id;
 
     @Column(name = "name", nullable = false)
