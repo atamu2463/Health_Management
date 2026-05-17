@@ -1,15 +1,12 @@
-FROM eclipse-temurin:21-jdk
+FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /backend
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+COPY package*.json ./
+RUN npm install
 
-RUN chmod +x mvnw 
-RUN ./mvnw dependency:go-offline
+COPY . .
 
-COPY src ./src
+EXPOSE 3000
 
-EXPOSE 8080
-
-CMD ["./mvnw", "spring-boot:run"]
+CMD [ "npm", "run", "start" ]
