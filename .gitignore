@@ -1,37 +1,37 @@
+# 依存関係
+**/node_modules/
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+
+# ビルド成果物
+# backend
+/backend/dist/
+/backend/build/
+
+# frontend
+/frontend/.next/
+/frontend/out/
+/frontend/build/
+
 # 環境変数
 .env
+.env.*
+*.env
 
-# Spring Bootプロジェクト
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# ログ・テスト・キャッシュ
+**/coverage/
+*.log
+*-debug.log*
+*-error.log*
+.nyc_output
+.temp
+.tmp
+*.tsbuildinfo
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# エディタ・OS設定
 .vscode/
+.idea/
+.DS_Store
+Thumbs.db
