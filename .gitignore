@@ -1,9 +1,5 @@
 # 依存関係
 **/node_modules/
-node_modules/
-.pnp
-.pnp.*
-.yarn/*
 
 # ビルド成果物
 # backend
@@ -29,9 +25,17 @@ node_modules/
 .temp
 .tmp
 *.tsbuildinfo
+logs
+pids
+*.pid
+*.seed
+*.pid.lock
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # エディタ・OS設定
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+*.pem
+.vercel
