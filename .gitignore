@@ -5,7 +5,6 @@
 # backend
 /backend/dist/
 /backend/build/
-/backend/generated/prisma
 
 # frontend
 /frontend/.next/
