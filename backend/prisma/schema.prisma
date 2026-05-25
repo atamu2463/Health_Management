@@ -8,6 +8,30 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
+
+// Organizationテーブル
+model Organization {
+  id        String      @id @default(uuid())
+  name      String
+}
+
+// Adminsテーブル
+model Admins {
+  id                String      @id @default(uuid())
+  organization_id   Organization      @relation(fields: [id], refarences: [id])
+  depertment_id     Depertments       @relation(fields:[id], refarences: [id])
+  name              String
+  email             String            @unique
+  password          String
+}
+
+//Depertmentsテーブル
+model Depertments {
+  id              String        @id @default(uuid())
+  organization_id Organization  @relation(fields: [id], refarences: [id])
+  name            String
+}
+
