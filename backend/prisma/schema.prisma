@@ -35,3 +35,28 @@ model Depertments {
   name            String
 }
 
+// Admin_Employeesテーブル
+model AdminEmployees {
+  id              String      @id @default(uuid())
+  admin_id        Admins  @relation(fields: [id], refarences: [id])
+  employees_id    Employees   @relation(fields: [id], refarences: [id])         
+}
+
+// Employeesテーブル
+model Employees {
+  id                String      @id @default(uuid())
+  organization_id   Organization      @relation(fields: [id], refarences: [id])
+  depertment_id     Depertments       @relation(fields:[id], refarences: [id])
+  name              String
+  email             String            @unique
+  password          String
+}
+
+// Healthテーブル
+model Health {
+  id                String      @id @default(uuid())
+  employees_id      Employees   @relation(fields: [id], refarences: [id])
+  condition         String
+  comment           String
+  recoded_date      Datetime
+}
