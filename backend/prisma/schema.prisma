@@ -14,48 +14,55 @@ datasource db {
 
 // Organizationテーブル
 model Organization {
-  id        String      @id @default(uuid())
-  name      String
+  id          String   @id @default(uuid())
+  name        String
+  departments Departments[]
+  admins      Admins[]
+  employees   Employees[]
 }
 
 // Adminsテーブル
 model Admins {
-  id                String      @id @default(uuid())
-  organization_id   Organization      @relation(fields: [id], refarences: [id])
-  depertment_id     Depertments       @relation(fields:[id], refarences: [id])
+  id                String        @id @default(uuid())
+  organization_id   String      
+  organization      Organization  @relation(fields: [organization_id], references: [id])
+  department_id     String
+  department        Departments   @relation(fields:[department_id], references: [id])
+  employees         Employees[]   @relation("AdminToEmployee")
   name              String
-  email             String            @unique
+  email             String        @unique
   password          String
 }
 
-//Depertmentsテーブル
-model Depertments {
+//Departmentsテーブル
+model Departments {
   id              String        @id @default(uuid())
-  organization_id Organization  @relation(fields: [id], refarences: [id])
+  organization_id String
+  organization    Organization  @relation(fields: [organization_id], refarences: [id])
   name            String
-}
-
-// Admin_Employeesテーブル
-model AdminEmployees {
-  id              String      @id @default(uuid())
-  admin_id        Admins  @relation(fields: [id], refarences: [id])
-  employees_id    Employees   @relation(fields: [id], refarences: [id])         
+  admins          Admins[]
+  employees       Employees[]
 }
 
 // Employeesテーブル
 model Employees {
   id                String      @id @default(uuid())
-  organization_id   Organization      @relation(fields: [id], refarences: [id])
-  depertment_id     Depertments       @relation(fields:[id], refarences: [id])
+  organization_id   String
+  organization      Organization      @relation(fields: [organization_id], references: [id])
+  department_id     String
+  department        Departments       @relation(fields:[department_id], references: [id])
+  admins            Admins[]          @relation("AdminToEmployee")
   name              String
   email             String            @unique
   password          String
+  health            Health[]
 }
 
 // Healthテーブル
 model Health {
   id                String      @id @default(uuid())
-  employees_id      Employees   @relation(fields: [id], refarences: [id])
+  employees_id      String
+  employee          Employees   @relation(fields: [employees_id], refarences: [id])
   condition         String
   comment           String
   recoded_date      Datetime
