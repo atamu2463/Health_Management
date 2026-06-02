@@ -19,6 +19,8 @@ model Organization {
   departments Department[]
   admins      Admin[]
   employees   Employee[]
+
+  @@map("organizations")
 }
 
 // Adminsテーブル
@@ -67,9 +69,9 @@ model Employee {
 // Healthテーブル
 model Health {
   id                String      @id @default(uuid())
-  employeesId       String
+  employeeId        String
   employee          Employee    @relation(fields: [employeeId], references: [id])
   condition         String
   comment           String
-  recorded_date     DateTime
+  recordedDate      DateTime
 }
