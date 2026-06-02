@@ -38,7 +38,7 @@ model Admins {
 model Departments {
   id              String        @id @default(uuid())
   organization_id String
-  organization    Organization  @relation(fields: [organization_id], refarences: [id])
+  organization    Organization  @relation(fields: [organization_id], references: [id])
   name            String
   admins          Admins[]
   employees       Employees[]
@@ -62,8 +62,8 @@ model Employees {
 model Health {
   id                String      @id @default(uuid())
   employees_id      String
-  employee          Employees   @relation(fields: [employees_id], refarences: [id])
+  employee          Employees   @relation(fields: [employees_id], references: [id])
   condition         String
   comment           String
-  recoded_date      Datetime
+  recorded_date     DateTime
 }
