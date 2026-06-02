@@ -16,53 +16,59 @@ datasource db {
 model Organization {
   id          String   @id @default(uuid())
   name        String
-  departments Departments[]
-  admins      Admins[]
-  employees   Employees[]
+  departments Department[]
+  admins      Admin[]
+  employees   Employee[]
 }
 
 // Adminsテーブル
-model Admins {
+model Admin {
   id                String        @id @default(uuid())
   organization_id   String      
-  organization      Organization  @relation(fields: [organization_id], references: [id])
+  organization      Organization  @relation(fields: [organizationId], references: [id])
   department_id     String
-  department        Departments   @relation(fields:[department_id], references: [id])
-  employees         Employees[]   @relation("AdminToEmployee")
+  department        Department   @relation(fields:[departmentId], references: [id])
+  employees         Employee[]   @relation("AdminToEmployee")
   name              String
   email             String        @unique
   password          String
+
+  @@map("admins")
 }
 
 //Departmentsテーブル
-model Departments {
+model Department {
   id              String        @id @default(uuid())
-  organization_id String
-  organization    Organization  @relation(fields: [organization_id], references: [id])
+  organizationId  String
+  organization    Organization  @relation(fields: [organizationId], references: [id])
   name            String
-  admins          Admins[]
-  employees       Employees[]
+  admins          Admin[]
+  employees       Employee[]
+
+  @@map("departments")
 }
 
 // Employeesテーブル
 model Employees {
-  id                String      @id @default(uuid())
-  organization_id   String
-  organization      Organization      @relation(fields: [organization_id], references: [id])
-  department_id     String
-  department        Departments       @relation(fields:[department_id], references: [id])
-  admins            Admins[]          @relation("AdminToEmployee")
-  name              String
-  email             String            @unique
-  password          String
-  health            Health[]
+  id               String      @id @default(uuid())
+  organizationId   String
+  organization     Organization      @relation(fields: [organizationId], references: [id])
+  departmentId     String
+  department       Department       @relation(fields:[departmentId], references: [id])
+  admins           Admin[]          @relation("AdminToEmployee")
+  name             String
+  email            String            @unique
+  password         String
+  health           Health[]
+
+  @@map("employees")
 }
 
 // Healthテーブル
 model Health {
   id                String      @id @default(uuid())
-  employees_id      String
-  employee          Employees   @relation(fields: [employees_id], references: [id])
+  employeesId       String
+  employee          Employees   @relation(fields: [employeesId], references: [id])
   condition         String
   comment           String
   recorded_date     DateTime
