@@ -26,8 +26,6 @@ model Organization {
 // Adminsテーブル
 model Admin {
   id                String        @id @default(uuid())
-  organizationId    String      
-  organization      Organization  @relation(fields: [organizationId], references: [id])
   departmentId      String
   department        Department   @relation(fields:[departmentId], references: [id])
   employees         Employee[]   @relation("AdminToEmployee")
@@ -53,8 +51,6 @@ model Department {
 // Employeesテーブル
 model Employee {
   id               String      @id @default(uuid())
-  organizationId   String
-  organization     Organization      @relation(fields: [organizationId], references: [id])
   departmentId     String
   department       Department       @relation(fields:[departmentId], references: [id])
   admins           Admin[]          @relation("AdminToEmployee")
