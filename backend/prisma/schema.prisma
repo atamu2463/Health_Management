@@ -17,8 +17,6 @@ model Organization {
   id          String   @id @default(uuid())
   name        String
   departments Department[]
-  admins      Admin[]
-  employees   Employee[]
 
   @@map("organizations")
 }
