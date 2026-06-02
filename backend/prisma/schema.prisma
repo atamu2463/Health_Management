@@ -73,5 +73,7 @@ model Health {
   employee          Employee    @relation(fields: [employeeId], references: [id])
   condition         String
   comment           String
-  recordedDate      DateTime
+  recordedDate      DateTime    @default(now())
+
+  @@map("health")
 }
