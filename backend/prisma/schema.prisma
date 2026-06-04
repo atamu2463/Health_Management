@@ -81,12 +81,18 @@ model Employee {
   @@map("employees")
 }
 
+enum HealthCondition {
+  GOOD
+  CAUTION
+  BAD
+}
+
 // HealthRecordsテーブル
 model HealthRecord {
   id                String      @id @default(uuid())
   employeeId        String
   employee          Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  condition         Int
+  condition         HealthCondition
   comment           String
   recordedDate      DateTime    @default(now())
 
