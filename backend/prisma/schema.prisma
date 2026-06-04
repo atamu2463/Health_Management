@@ -60,8 +60,8 @@ model Employee {
   @@map("employees")
 }
 
-// Health_Recordsテーブル
-model Health {
+// HealthRecordsテーブル
+model HealthRecord {
   id                String      @id @default(uuid())
   employeeId        String
   employee          Employee    @relation(fields: [employeeId], references: [id])
