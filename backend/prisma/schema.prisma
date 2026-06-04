@@ -21,11 +21,31 @@ model Organization {
   @@map("organizations")
 }
 
+// ユーザー権限を定義
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+// Userモデル（認証基盤）
+model User {
+  id              String  @id @default(uuid())
+  email           String  @unique
+  password        String
+  role            Role
+  adminProfile    Admin?
+  employeeProfile Employee?
+
+  @@map("users")
+}
+
 // Adminsテーブル
 model Admin {
-  id                String        @id @default(uuid())
+  id                String       @id @default(uuid())
+  userId            String       @unique
+  user              User         @relation(fields: [userId], references: [id]) 
   departmentId      String
-  department        Department   @relation(fields:[departmentId], references: [id])
+  department        Department   @relation(fields: [departmentId], references: [id])
   employees         Employee[]   @relation("AdminToEmployee")
   name              String
   email             String        @unique
@@ -51,11 +71,13 @@ model Department {
 // Employeesテーブル
 model Employee {
   id               String      @id @default(uuid())
+  userId           String      @unique
+  user             User        @relation(fields: [userId], references: [id])
   departmentId     String
-  department       Department       @relation(fields:[departmentId], references: [id])
-  admins           Admin[]          @relation("AdminToEmployee")
+  department       Department  @relation(fields: [departmentId], references: [id])
+  admins           Admin[]     @relation("AdminToEmployee")
   name             String
-  email            String            @unique
+  email            String      @unique
   password         String
   health           HealthRecord[]
 
