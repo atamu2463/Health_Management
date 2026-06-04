@@ -31,6 +31,7 @@ model Admin {
   email             String        @unique
   password          String
 
+  @@index("departmentId")
   @@map("admins")
 }
 
@@ -43,6 +44,7 @@ model Department {
   admins          Admin[]
   employees       Employee[]
 
+  @@("organizationId")
   @@map("departments")
 }
 
@@ -55,8 +57,9 @@ model Employee {
   name             String
   email            String            @unique
   password         String
-  health           Health[]
+  health           HealthRecord[]
 
+  @@index("departmentId")
   @@map("employees")
 }
 
@@ -69,5 +72,6 @@ model HealthRecord {
   comment           String
   recordedDate      DateTime    @default(now())
 
+  @@index("employeeId")
   @@map("health_records")
 }
