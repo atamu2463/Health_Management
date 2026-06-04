@@ -48,8 +48,6 @@ model Admin {
   department        Department   @relation(fields: [departmentId], references: [id])
   employees         Employee[]   @relation("AdminToEmployee")
   name              String
-  email             String        @unique
-  password          String
 
   @@index("departmentId")
   @@map("admins")
@@ -77,8 +75,6 @@ model Employee {
   department       Department  @relation(fields: [departmentId], references: [id])
   admins           Admin[]     @relation("AdminToEmployee")
   name             String
-  email            String      @unique
-  password         String
   health           HealthRecord[]
 
   @@index("departmentId")
