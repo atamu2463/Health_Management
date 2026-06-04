@@ -86,7 +86,7 @@ model HealthRecord {
   id                String      @id @default(uuid())
   employeeId        String
   employee          Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  condition         String
+  condition         Int
   comment           String
   recordedDate      DateTime    @default(now())
 
