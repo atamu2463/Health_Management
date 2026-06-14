@@ -16,6 +16,9 @@
 .env.*
 *.env
 
+#ローカル環境
+docker-compose.override.yml
+
 # ログ・テスト・キャッシュ
 **/coverage/
 *.log
