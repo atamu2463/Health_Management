@@ -5,7 +5,6 @@
 # backend
 /backend/dist/
 /backend/build/
-/backend/src/generated/
 
 # frontend
 /frontend/.next/
