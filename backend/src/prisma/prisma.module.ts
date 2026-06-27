@@ -1,8 +1,12 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './prisma.service';
 
-@Global()  // アプリ全体でimportなしに使えるようにする
 @Module({
+  //起動時にNestJS側へ環境変数を確実にロードさせる
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true })
+  ],
   providers: [PrismaService],
   exports: [PrismaService],
 })
