@@ -7,11 +7,6 @@ import { UpdateOrganizationDto } from './dto/update-organization.dto';
 export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
-  @Post('register')
-  register(@Body() dto: CreateOrganizationDto) {
-    return this.organizationsService.register(dto as any);
-  }
-
   @Post()
   create(@Body() createOrganizationDto: CreateOrganizationDto) {
     return this.organizationsService.create(createOrganizationDto);
