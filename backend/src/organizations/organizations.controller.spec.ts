@@ -5,7 +5,10 @@ import { OrganizationsService } from './organizations.service';
 
 // OrganizationsService のモック
 const mockOrganizationsService = {
-  register: jest.fn(),
+  create: jest.fn(),
+  findAll: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
 };
 
 describe('OrganizationsController', () => {
@@ -24,51 +27,75 @@ describe('OrganizationsController', () => {
   });
 
   // ─────────────────────────────────────────────────────────
-  // テストケース 1: DTO をそのままサービスに渡すこと
+  // create()
   // ─────────────────────────────────────────────────────────
-  describe('register()', () => {
-    it('受け取った DTO を OrganizationsService.register() に渡すこと', async () => {
-      // Arrange
-      const dto = {
-        organizationName: 'テスト株式会社',
-        adminEmail: 'admin@test.com',
-        adminPassword: 'password123',
-        adminName: '山田太郎',
-      };
-      const expectedResponse = {
-        organization: { id: 'org-id', name: 'テスト株式会社' },
-        admin: { id: 'admin-id', email: 'admin@test.com' },
-      };
-      mockOrganizationsService.register.mockResolvedValue(expectedResponse);
+  describe('create()', () => {
+    it('受け取った DTO を OrganizationsService.create() に渡すこと', async () => {
+      const dto = { name: 'テスト株式会社' };
+      const expectedResponse = { id: 'org-id', name: 'テスト株式会社' };
+      mockOrganizationsService.create.mockResolvedValue(expectedResponse);
 
-      // Act
-      await controller.register(dto as any);
+      await controller.create(dto);
 
-      // Assert: サービスが DTO を受け取って呼ばれたことを確認
-      expect(mockOrganizationsService.register).toHaveBeenCalledWith(dto);
+      expect(mockOrganizationsService.create).toHaveBeenCalledWith(dto);
     });
 
-    // ─────────────────────────────────────────────────────────
-    // テストケース 2: サービスの戻り値をそのまま返すこと
-    // ─────────────────────────────────────────────────────────
-    it('OrganizationsService.register() の戻り値をそのまま返すこと', async () => {
-      // Arrange
-      const dto = {
-        organizationName: 'テスト株式会社',
-        adminEmail: 'admin@test.com',
-        adminPassword: 'password123',
-        adminName: '山田太郎',
-      };
-      const expectedResponse = {
-        organization: { id: 'org-id', name: 'テスト株式会社' },
-        admin: { id: 'admin-id', email: 'admin@test.com' },
-      };
-      mockOrganizationsService.register.mockResolvedValue(expectedResponse);
+    it('OrganizationsService.create() の戻り値をそのまま返すこと', async () => {
+      const dto = { name: 'テスト株式会社' };
+      const expectedResponse = { id: 'org-id', name: 'テスト株式会社' };
+      mockOrganizationsService.create.mockResolvedValue(expectedResponse);
 
-      // Act
-      const result = await controller.register(dto as any);
+      const result = await controller.create(dto);
 
-      // Assert
+      expect(result).toEqual(expectedResponse);
+    });
+  });
+
+
+  // ─────────────────────────────────────────────────────────
+  // findAll()
+  // ─────────────────────────────────────────────────────────
+  describe('findAll()', () => {
+    it('OrganizationsService.findAll() を呼び出すこと', async () => {
+      const expectedResponse = [{ id: 'org-id', name: 'テスト株式会社' }];
+      mockOrganizationsService.findAll.mockResolvedValue(expectedResponse);
+
+      const result = await controller.findAll();
+
+      expect(mockOrganizationsService.findAll).toHaveBeenCalled();
+      expect(result).toEqual(expectedResponse);
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────
+  // update()
+  // ─────────────────────────────────────────────────────────
+  describe('update()', () => {
+    it('id と DTO を OrganizationsService.update() に渡すこと', async () => {
+      const id = 'org-id';
+      const dto = { name: '更新後の会社名' };
+      const expectedResponse = { id, name: '更新後の会社名' };
+      mockOrganizationsService.update.mockResolvedValue(expectedResponse);
+
+      const result = await controller.update(id, dto);
+
+      expect(mockOrganizationsService.update).toHaveBeenCalledWith(id, dto);
+      expect(result).toEqual(expectedResponse);
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────
+  // remove()
+  // ─────────────────────────────────────────────────────────
+  describe('remove()', () => {
+    it('id を OrganizationsService.remove() に渡すこと', async () => {
+      const id = 'org-id';
+      const expectedResponse = { id, name: 'テスト株式会社' };
+      mockOrganizationsService.remove.mockResolvedValue(expectedResponse);
+
+      const result = await controller.remove(id);
+
+      expect(mockOrganizationsService.remove).toHaveBeenCalledWith(id);
       expect(result).toEqual(expectedResponse);
     });
   });
