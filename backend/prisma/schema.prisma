@@ -8,13 +8,13 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 // Organizationテーブル
 model Organization {
-  id          String   @id @default(uuid())
-  name        String
+  id          String       @id @default(uuid())
+  name        String       @unique
   departments Department[]
 
   @@map("organizations")
@@ -28,8 +28,8 @@ enum Role {
 
 // Userモデル（認証基盤）
 model User {
-  id              String  @id @default(uuid())
-  email           String  @unique
+  id              String    @id @default(uuid())
+  email           String    @unique
   password        String
   role            Role
   adminProfile    Admin?
@@ -40,13 +40,13 @@ model User {
 
 // Adminsテーブル
 model Admin {
-  id                String       @id @default(uuid())
-  userId            String       @unique
-  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade) 
-  departmentId      String
-  department        Department   @relation(fields: [departmentId], references: [id])
-  employees         Employee[]   @relation("AdminToEmployee")
-  name              String
+  id           String     @id @default(uuid())
+  userId       String     @unique
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  employees    Employee[] @relation("AdminToEmployee")
+  name         String
 
   @@index([departmentId])
   @@map("admins")
@@ -54,12 +54,12 @@ model Admin {
 
 //Departmentsテーブル
 model Department {
-  id              String        @id @default(uuid())
-  organizationId  String
-  organization    Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  name            String
-  admins          Admin[]
-  employees       Employee[]
+  id             String       @id @default(uuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  admins         Admin[]
+  employees      Employee[]
 
   @@index([organizationId])
   @@map("departments")
@@ -67,14 +67,14 @@ model Department {
 
 // Employeesテーブル
 model Employee {
-  id               String      @id @default(uuid())
-  userId           String      @unique
-  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  departmentId     String
-  department       Department  @relation(fields: [departmentId], references: [id])
-  admins           Admin[]     @relation("AdminToEmployee")
-  name             String
-  health           HealthRecord[]
+  id           String         @id @default(uuid())
+  userId       String         @unique
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  departmentId String
+  department   Department     @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  admins       Admin[]        @relation("AdminToEmployee")
+  name         String
+  health       HealthRecord[]
 
   @@index([departmentId])
   @@map("employees")
@@ -88,12 +88,12 @@ enum HealthCondition {
 
 // HealthRecordsテーブル
 model HealthRecord {
-  id                String      @id @default(uuid())
-  employeeId        String
-  employee          Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  condition         HealthCondition
-  comment           String
-  recordedDate      DateTime    @default(now())
+  id           String          @id @default(uuid())
+  employeeId   String
+  employee     Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  condition    HealthCondition
+  comment      String
+  recordedDate DateTime        @default(now())
 
   @@index([employeeId])
   @@map("health_records")
