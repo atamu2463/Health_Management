@@ -14,8 +14,7 @@ datasource db {
 // Organizationテーブル
 model Organization {
   id          String       @id @default(uuid())
-  name        String
-  password    String
+  name        String       `@unique`
   departments Department[]
 
   @@map("organizations")
