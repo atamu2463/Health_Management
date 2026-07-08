@@ -20,21 +20,19 @@ export default function TopPage() {
               安心して働ける職場づくりをサポートします。
             </p>
           </div>
-
           <div className="flex w-full flex-col gap-3">
              <Button asChild className="w-full gap-2 py-5 text-sm sm:py-6 sm:text-base" size="lg">
-+              <Link href="/employee/login"><Users className="h-5 w-5" />従業員ログイン</Link>
-+            </Button>
+              <Link href="/employee/login"><Users className="h-5 w-5" />従業員ログイン</Link>
+            </Button>
             <Button asChild variant="outline" className="w-full gap-2 py-5 text-sm sm:py-6 sm:text-base" size="lg">
-+              <Link href="/admin/login"><Shield className="h-5 w-5" />管理者ログイン</Link>
-+            </Button>
+              <Link href="/admin/login"><Shield className="h-5 w-5" />管理者ログイン</Link>
+            </Button>
           </div>
-
           <div className="flex w-full flex-col items-center gap-2 border-t border-border pt-5 sm:pt-6">
             <p className="text-xs text-muted-foreground sm:text-sm">組織がまだ登録されていませんか？</p>
             <Button asChild variant="link" className="text-primary text-sm">
-+              <Link href="/organization/register">新規組織登録はこちら</Link>
-+            </Button>
+              <Link href="/organization/register">新規組織登録はこちら</Link>
+            </Button>
           </div>
         </div>
       </main>
