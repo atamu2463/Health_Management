@@ -1,5 +1,19 @@
-node_modules
-dist
+# Git
 .git
+.gitignore
+
+# 環境変数
 .env
-npm-debug.log
+.env.*
+
+# Goのビルド成果物
+bin/
+tmp/
+
+# ログ
+*.log
+
+# エディタ・OS
+.vscode/
+.idea/
+.DS_Store

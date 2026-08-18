@@ -1,13 +1,12 @@
-FROM node:20-alpine
+FROM golang:1.26.5-alpine
 
 WORKDIR /backend
 
-COPY package*.json ./
-RUN npm install
+COPY go.mod go.sum ./
+RUN go mod download
 
 COPY . .
-RUN npx prisma generate
 
-EXPOSE 3000
+EXPOSE 8080
 
-CMD [ "npm", "run", "start" ]
+CMD ["go", "run", "."]
