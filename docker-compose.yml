@@ -3,46 +3,68 @@ services:
     container_name: db
     image: postgres:16
     restart: always
+
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
     ports:
       - "5432:5432"
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
   backend:
     container_name: backend
-    build: 
+
+    build:
       context: ./backend
       dockerfile: Dockerfile
+
     volumes:
       - ./backend:/backend
-      - /backend/node_modules
-      - /backend/node_modules/.prisma #コンテナ内のPrisma出力ファイルを保護
+
     ports:
-      - "3000:3000" #NestJSのデフォルト
+      - "8080:8080"
+
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable
+
     depends_on:
-      - db
-    command: sh -c "npx prisma generate && npm run start" #コンテナ起動時にも自動でprisma generateを走らせる
-  
+      db:
+        condition: service_healthy
+
+    command: go run .
+
+
   frontend:
     container_name: frontend
-    build: 
+
+    build:
       context: ./frontend
       dockerfile: Dockerfile
+
     volumes:
       - ./frontend:/frontend
       - /frontend/node_modules
+
     ports:
-      - "3001:3001" #backendとの競合を避ける
+      - "3000:3000"
+
     environment:
-      - PORT=3001
+      PORT: 3000
+
     depends_on:
       - backend
+
 
 volumes:
   postgres_data:
