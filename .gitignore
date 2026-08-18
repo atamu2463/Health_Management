@@ -2,12 +2,11 @@
 **/node_modules/
 
 # ビルド成果物
-# backend
-/backend/dist/
-/backend/build/
-/backend/src/generated/
+# backend (Go)
+/backend/bin/
+/backend/tmp/
 
-# frontend
+# frontend (Next.js)
 /frontend/.next/
 /frontend/out/
 /frontend/build/
@@ -17,7 +16,7 @@
 .env.*
 *.env
 
-#ローカル環境
+# ローカル環境
 docker-compose.override.yml
 
 # ログ・テスト・キャッシュ
