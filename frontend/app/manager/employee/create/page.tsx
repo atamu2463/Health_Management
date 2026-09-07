@@ -28,11 +28,12 @@ export default function EmployeeCreatePage() {
   })
 
   const [createdName, setCreatedName] = useState<string | null>(null)
+  const [formError, setFormError] = useState<string | null>(null)
 
   function submit(event: React.FormEvent) {
     event.preventDefault()
 
-    addEmployee({
+    const isCreated = addEmployee({
       id: `new-${Date.now()}`,
       name: form.name,
       email: form.email,
@@ -40,6 +41,12 @@ export default function EmployeeCreatePage() {
       records: [],
     })
 
+    if (!isCreated) {
+      setFormError("このメールアドレスはすでに登録されています。")
+      return
+    }
+
+    setFormError(null)
     setCreatedName(form.name)
   }
 
@@ -78,6 +85,7 @@ export default function EmployeeCreatePage() {
                     password: "",
                   })
                   setCreatedName(null)
+                  setFormError(null)
                 }}
               >
                 続けて別の従業員を登録
@@ -163,6 +171,15 @@ export default function EmployeeCreatePage() {
                     />
                   </div>
                 ))}
+
+                {formError && (
+                  <p
+                    className="text-sm text-destructive"
+                    role="alert"
+                  >
+                    {formError}
+                  </p>
+                )}
 
                 <Button type="submit" size="lg">
                   従業員アカウントを作成

@@ -6,8 +6,8 @@ import useEmblaCarousel, {
 } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -58,11 +58,13 @@ function Carousel({
     },
     plugins,
   )
+
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   const [canScrollNext, setCanScrollNext] = React.useState(false)
 
   const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) return
+
     setCanScrollPrev(api.canScrollPrev())
     setCanScrollNext(api.canScrollNext())
   }, [])
@@ -90,6 +92,7 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api || !setApi) return
+
     setApi(api)
   }, [api, setApi])
 
@@ -99,7 +102,12 @@ function Carousel({
     api.on('reInit', onSelect)
     api.on('select', onSelect)
 
+    const frameId = requestAnimationFrame(() => {
+      onSelect(api)
+    })
+
     return () => {
+      cancelAnimationFrame(frameId)
       api.off('reInit', onSelect)
       api.off('select', onSelect)
     }
@@ -109,7 +117,7 @@ function Carousel({
     <CarouselContext.Provider
       value={{
         carouselRef,
-        api: api,
+        api,
         opts,
         orientation:
           orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
@@ -133,7 +141,10 @@ function Carousel({
   )
 }
 
-function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
+function CarouselContent({
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
   const { carouselRef, orientation } = useCarousel()
 
   return (
@@ -154,7 +165,10 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
+function CarouselItem({
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
   const { orientation } = useCarousel()
 
   return (

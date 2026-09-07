@@ -3,6 +3,7 @@
 import { createContext, useContext, useMemo, useState } from "react"
 import {
   allEmployeeAccounts,
+  getLocalDateKey,
   initialRegisteredIds,
   type CheckinType,
   type Employee,
@@ -13,7 +14,7 @@ interface MockAppState {
   employees: Employee[]
   managers: string[]
   managerByEmployee: Record<string, string>
-  addEmployee: (employee: Employee) => void
+  addEmployee: (employee: Employee) => boolean
   updateEmployee: (
     employeeId: string,
     details: Pick<Employee, "name" | "email">,
@@ -58,16 +59,22 @@ export function MockAppProvider({
       managerByEmployee,
 
       addEmployee: (employee) => {
-        setEmployees((current) =>
-          current.some((item) => item.email === employee.email)
-            ? current
-            : [...current, employee],
+        const isDuplicate = employees.some(
+          (item) => item.email === employee.email,
         )
+
+        if (isDuplicate) {
+          return false
+        }
+
+        setEmployees((current) => [...current, employee])
 
         setManagerByEmployee((current) => ({
           ...current,
           [employee.id]: "鈴木 花子",
         }))
+
+        return true
       },
 
       updateEmployee: (employeeId, details) => {
@@ -81,7 +88,7 @@ export function MockAppProvider({
       },
 
       deactivateEmployee: (employeeId) => {
-        const deactivatedAt = new Date().toISOString().slice(0, 10)
+        const deactivatedAt = getLocalDateKey()
 
         setEmployees((current) =>
           current.map((employee) =>
@@ -97,12 +104,6 @@ export function MockAppProvider({
           ...current,
           [employeeId]: manager,
         }))
-
-        if (manager !== "鈴木 花子") {
-          setEmployees((current) =>
-            current.filter((employee) => employee.id !== employeeId),
-          )
-        }
       },
 
       addHealthEntry: (employeeId, date, type, entry) => {

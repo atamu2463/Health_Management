@@ -28,12 +28,14 @@ const filterLabels = {
 } as const
 
 export default function ManagerDashboardPage() {
-  const { employees } = useMockApp()
+  const { employees, managerByEmployee } = useMockApp()
   const [date, setDate] = useState(() => getLocalDateKey())
   const [filter, setFilter] = useState<StatusFilter>(null)
 
-  const visibleEmployees = employees.filter((employee) =>
-    isEmployeeVisibleOnDate(employee, date),
+  const visibleEmployees = employees.filter(
+    (employee) =>
+      managerByEmployee[employee.id] === "鈴木 花子" &&
+      isEmployeeVisibleOnDate(employee, date),
   )
 
   const counts = {
@@ -113,11 +115,9 @@ export default function ManagerDashboardPage() {
 
           {(["caution", "bad", "missing"] as const).map((item) => (
             <button
-              type="button"
               key={item}
-              onClick={() =>
-                setFilter(filter === item ? null : item)
-              }
+              type="button"
+              onClick={() => setFilter(filter === item ? null : item)}
               className={`rounded-xl border bg-card text-left transition-colors ${
                 filter === item
                   ? "border-primary ring-2 ring-primary/20"
