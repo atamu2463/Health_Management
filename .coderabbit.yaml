@@ -8,3 +8,5 @@ reviews:
     drafts: false
     base_branches:
       - "develop"
+      - "main"
+
